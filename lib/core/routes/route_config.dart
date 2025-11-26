@@ -335,8 +335,8 @@ class RouteConfig {
               ),
               const SizedBox(height: 24),
               ElevatedButton(
-                onPressed: () => context.go(AppRoutes.home),
-                child: const Text('Go Home'),
+                onPressed: () => context.pop(),
+                child: const Text('Back'),
               ),
             ],
           ),

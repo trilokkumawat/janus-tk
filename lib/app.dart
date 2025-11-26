@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:janus/core/constants/routes.dart';
 import 'package:janus/data/services/auth_service.dart';
+import 'package:janus/domain/entities/appstateheader.dart';
 import 'package:janus/presentation/screens/home/home_screen.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -45,12 +46,28 @@ class _AppStateState extends State<AppState> {
     );
   }
 
+  String getHeaderTitle(int index) {
+    switch (index) {
+      case 0:
+        return AppStateHeader.home.name;
+      case 1:
+        return AppStateHeader.goals.name;
+      case 2:
+        return AppStateHeader.todos.name;
+      case 3:
+        return AppStateHeader.profile.name;
+    }
+    return '';
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       scaffoldMessengerKey: _scaffoldMessengerKey,
       home: Scaffold(
-        appBar: AppBar(title: const Text('Janus App')),
+        appBar: AppBar(
+          title: Text("${getHeaderTitle(_selectedIndex)}".toUpperCase()),
+        ),
         body: IndexedStack(index: _selectedIndex, children: _screens),
         bottomNavigationBar: BottomNavigationBar(
           items: const <BottomNavigationBarItem>[
