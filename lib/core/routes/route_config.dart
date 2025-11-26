@@ -3,7 +3,6 @@ import 'package:go_router/go_router.dart';
 import 'package:janus/app.dart';
 import 'package:janus/core/constants/routes.dart';
 import 'package:janus/presentation/screens/auth/login_screen.dart';
-import 'package:janus/presentation/screens/auth/register_screen.dart';
 import 'package:janus/presentation/screens/auth/forgot_password_screen.dart';
 import 'package:janus/presentation/screens/home/home_screen.dart';
 import 'package:janus/presentation/screens/profile/profile_screen.dart';
@@ -15,6 +14,7 @@ import 'package:janus/presentation/screens/todos/todos_screen.dart';
 import 'package:janus/presentation/screens/todos/todo_detail_screen.dart';
 import 'package:janus/presentation/screens/goals/goals_screen.dart';
 import 'package:janus/presentation/screens/goals/goal_detail_screen.dart';
+import 'package:janus/widgets/common/page_not_found_screen.dart';
 import 'package:janus/splash.dart';
 
 /// Route configuration for the application
@@ -317,31 +317,8 @@ class RouteConfig {
           ],
         ),
       ],
-      errorBuilder: (context, state) => Scaffold(
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Icon(Icons.error_outline, size: 64, color: Colors.red),
-              const SizedBox(height: 16),
-              Text(
-                'Page not found',
-                style: Theme.of(context).textTheme.headlineSmall,
-              ),
-              const SizedBox(height: 8),
-              Text(
-                state.uri.toString(),
-                style: Theme.of(context).textTheme.bodyMedium,
-              ),
-              const SizedBox(height: 24),
-              ElevatedButton(
-                onPressed: () => context.go(AppRoutes.home),
-                child: const Text('Go Home'),
-              ),
-            ],
-          ),
-        ),
-      ),
+      errorBuilder: (context, state) =>
+          PageNotFoundScreen(uri: state.uri.toString()),
     );
   }
 }

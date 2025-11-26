@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:janus/core/routes/route_config.dart';
+import 'package:janus/core/theme/app_theme.dart';
 import 'package:janus/data/services/auth_service.dart';
 import 'package:janus/widgets/navigation/app_router.dart';
 import 'data/services/supabase_service.dart';
@@ -27,9 +28,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       title: 'Janus',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      ),
+      theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
+      themeMode: ThemeMode.system,
       routerConfig: appRouter,
     );
   }

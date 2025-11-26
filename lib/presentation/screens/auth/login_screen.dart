@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:janus/core/constants/routes.dart';
-import 'package:janus/core/constants/appcolor.dart';
+import 'package:janus/core/theme/app_theme.dart';
 import 'package:janus/core/utils/validation.dart';
 import 'package:janus/data/controller/login_controller.dart';
 

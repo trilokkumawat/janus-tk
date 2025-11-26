@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:janus/core/constants/routes.dart';
+import 'package:janus/core/theme/app_theme.dart';
+import 'package:janus/data/services/edge_function_service.dart';
 import 'package:janus/widgets/supabase/cached_query_flutter.dart';
 import 'package:janus/data/controller/categories_controller.dart';
 import 'package:janus/data/models/category_model.dart';
@@ -23,11 +25,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     return ConfettiOverlay(
       particleCount: 50,
       colors: const [
-        Colors.green,
-        Colors.blue,
-        Colors.pink,
-        Colors.orange,
-        Colors.purple,
+        AppColors.green,
+        AppColors.blue,
+        AppColors.coral,
+        AppColors.orange,
+        AppColors.purple,
       ],
       duration: const Duration(seconds: 3),
       gravity: 0.1,
@@ -40,6 +42,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   GoRouter.of(context).push(AppRoutes.goals);
                 },
                 child: const Text('Go to Goals'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  EdgeFunctionService.invoke('stripe_payment');
+                },
+                child: const Text('edge function '),
               ),
               Expanded(
                 child: CachedQueryFlutter<CategoryModel>(
@@ -65,7 +73,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         Text(
                           'Loading categories...',
                           style: Theme.of(context).textTheme.bodyMedium
-                              ?.copyWith(color: Colors.grey[600]),
+                              ?.copyWith(color: AppColors.secondaryText),
                         ),
                       ],
                     ),
@@ -87,7 +95,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               ? Text(
                                   'Created: ${category.createdAt!.day}/${category.createdAt!.month}/${category.createdAt!.year}',
                                   style: Theme.of(context).textTheme.bodySmall
-                                      ?.copyWith(color: Colors.grey),
+                                      ?.copyWith(
+                                        color: AppColors.secondaryText,
+                                      ),
                                 )
                               : null,
                         );
