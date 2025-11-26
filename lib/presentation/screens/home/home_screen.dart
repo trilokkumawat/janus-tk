@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:janus/core/constants/routes.dart';
 import 'package:janus/core/theme/app_theme.dart';
-import 'package:janus/data/services/edge_function_service.dart';
 import 'package:janus/widgets/supabase/cached_query_flutter.dart';
 import 'package:janus/data/controller/categories_controller.dart';
 import 'package:janus/data/models/category_model.dart';

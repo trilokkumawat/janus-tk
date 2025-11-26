@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:janus/core/theme/app_theme.dart';
 import 'package:janus/data/services/auth_service.dart';
+import 'package:janus/domain/entities/appheaderenum.dart';
 import 'package:janus/presentation/screens/home/home_screen.dart';
 
 /// Main application widget using BottomNavigationBar to navigate
@@ -43,6 +44,21 @@ class _AppStateState extends State<AppState> {
     );
   }
 
+  String getHeaderTitle(int index) {
+    switch (index) {
+      case 0:
+        return AppStateHeader.home.name;
+      case 1:
+        return AppStateHeader.goals.name;
+      case 2:
+        return AppStateHeader.todos.name;
+      case 3:
+        return AppStateHeader.profile.name;
+      default:
+        return '';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -51,7 +67,7 @@ class _AppStateState extends State<AppState> {
       themeMode: ThemeMode.system,
       scaffoldMessengerKey: _scaffoldMessengerKey,
       home: Scaffold(
-        appBar: AppBar(title: const Text('Janus App')),
+        appBar: AppBar(title: Text(getHeaderTitle(_selectedIndex))),
         body: IndexedStack(index: _selectedIndex, children: _screens),
         bottomNavigationBar: BottomNavigationBar(
           items: const <BottomNavigationBarItem>[
