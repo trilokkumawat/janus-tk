@@ -8,7 +8,6 @@ import 'package:janus/widgets/supabase/cached_query_flutter.dart';
 import 'package:janus/data/controller/categories_controller.dart';
 import 'package:janus/data/models/category_model.dart';
 import 'package:janus/widgets/animations/confetti_overlay.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -18,8 +17,6 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
-  int _counter = 0;
-
   @override
   Widget build(BuildContext context) {
     return ConfettiOverlay(
@@ -43,12 +40,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 },
                 child: const Text('Go to Goals'),
               ),
-              ElevatedButton(
-                onPressed: () {
-                  EdgeFunctionService.invoke('stripe_payment');
-                },
-                child: const Text('edge function '),
-              ),
+
               Expanded(
                 child: CachedQueryFlutter<CategoryModel>(
                   queryKey: 'category_list',
