@@ -57,6 +57,7 @@ class ApiCallHandler {
           );
       }
     } on DioException catch (e) {
+      print(e.response?.data);
       throw ApiErrorHandler.handleError(e);
     }
   }

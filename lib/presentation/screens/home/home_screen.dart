@@ -1,8 +1,8 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
-import 'package:janus/core/constants/routes.dart';
 import 'package:janus/core/theme/app_theme.dart';
+import 'package:janus/data/services/rest_api.dart';
 import 'package:janus/widgets/supabase/cached_query_flutter.dart';
 import 'package:janus/data/controller/categories_controller.dart';
 import 'package:janus/data/models/category_model.dart';
@@ -33,9 +33,34 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         body: Center(
           child: Column(
             children: <Widget>[
+              // ElevatedButton(
+              //   onPressed: () {
+              //     GoRouter.of(context).push(AppRoutes.goals);
+              //   },
+              //   child: const Text('Go to Goals'),
+              // ),
               ElevatedButton(
-                onPressed: () {
-                  GoRouter.of(context).push(AppRoutes.goals);
+                onPressed: () async {
+                  var result = await JanusApiGroup.hellofun.call(
+                    useFunctionApi: true,
+                  );
+                  if (result.success) {
+                    String dataString;
+                    if (result.data is String) {
+                      dataString = result.data as String;
+                    } else if (result.data is Map) {
+                      dataString = jsonEncode(result.data);
+                    } else {
+                      dataString = result.data?.toString() ?? 'Success';
+                    }
+                    ScaffoldMessenger.of(
+                      context,
+                    ).showSnackBar(SnackBar(content: Text(dataString)));
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text(result.message ?? '')),
+                    );
+                  }
                 },
                 child: const Text('Go to Goals'),
               ),
