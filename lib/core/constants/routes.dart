@@ -6,6 +6,7 @@ class AppRoutes {
   static const String onboarding = '/onboarding';
 
   static const String appState = '/app-state';
+  static const String subscription = '/subscription';
 
   // Auth routes
   static const String login = '/login';

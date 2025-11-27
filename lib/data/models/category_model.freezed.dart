@@ -176,8 +176,8 @@ class _$CategoryModelImpl implements _CategoryModel {
     required this.id,
     required this.name,
     this.description,
-    @JsonKey(name: 'created_at') this.createdAt = null,
-    @JsonKey(name: 'updated_at') this.updatedAt = null,
+    @JsonKey(name: 'created_at') this.createdAt,
+    @JsonKey(name: 'updated_at') this.updatedAt,
   });
 
   factory _$CategoryModelImpl.fromJson(Map<String, dynamic> json) =>

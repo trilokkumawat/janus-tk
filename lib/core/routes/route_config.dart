@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:janus/app.dart';
 import 'package:janus/core/constants/routes.dart';
+import 'package:janus/data/services/auth_service.dart';
 import 'package:janus/presentation/screens/auth/login_screen.dart';
 import 'package:janus/presentation/screens/auth/forgot_password_screen.dart';
 import 'package:janus/presentation/screens/home/home_screen.dart';
 import 'package:janus/presentation/screens/profile/profile_screen.dart';
 import 'package:janus/presentation/screens/projects/projects_screen.dart';
 import 'package:janus/presentation/screens/projects/project_detail_screen.dart';
+import 'package:janus/presentation/screens/subscription/subscription_screen.dart';
 import 'package:janus/presentation/screens/tasks/tasks_screen.dart';
 import 'package:janus/presentation/screens/tasks/task_detail_screen.dart';
 import 'package:janus/presentation/screens/todos/todos_screen.dart';
@@ -133,10 +135,33 @@ class RouteConfig {
     }
   }
 
+  /// Redirect function to check authentication
+  static String? _redirect(BuildContext context, GoRouterState state) {
+    final isAuthenticated = SupabaseAuth.isAuthenticated;
+    final isLoginRoute =
+        state.matchedLocation == AppRoutes.login ||
+        state.matchedLocation == AppRoutes.forgotPassword;
+    final isSplashRoute = state.matchedLocation == AppRoutes.splash;
+
+    // If user is not authenticated and trying to access protected routes
+    if (!isAuthenticated && !isLoginRoute && !isSplashRoute) {
+      return AppRoutes.login;
+    }
+
+    // If user is authenticated and trying to access login/forgot password
+    if (isAuthenticated && isLoginRoute) {
+      return AppRoutes.appState;
+    }
+
+    // No redirect needed
+    return null;
+  }
+
   static GoRouter createRouter() {
     return GoRouter(
       initialLocation: AppRoutes.splash,
       refreshListenable: _refreshNotifier,
+      redirect: _redirect,
       routes: [
         // Splash/Onboarding
         GoRoute(
@@ -204,6 +229,15 @@ class RouteConfig {
             context: context,
             state: state,
             child: const HomeScreen(),
+          ),
+        ),
+        GoRoute(
+          path: AppRoutes.subscription,
+          name: 'subscription',
+          pageBuilder: (context, state) => _fadeTransition(
+            context: context,
+            state: state,
+            child: const SubscriptionScreen(),
           ),
         ),
         GoRoute(

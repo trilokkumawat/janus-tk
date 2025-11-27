@@ -137,6 +137,8 @@ class JanusApiGroup {
   static SendMessageCall sendMessageCall = SendMessageCall();
   static DealActivityCallv2 dealActivityCallv2 = DealActivityCallv2();
   static Hellowfunctioncall hellofun = Hellowfunctioncall();
+  static StripeCustomerIdCreate stripecustomeridcreate =
+      StripeCustomerIdCreate();
 }
 
 class ApiResponse {
@@ -182,6 +184,27 @@ class SendMessageCall {
           'Message Content': messageContent,
           'Conversation': conversation,
         },
+        useFunctionApi: useFunctionApi, // PASSED DOWN
+      );
+
+      return ApiResponse.fromResponse(response);
+    } catch (e) {
+      return ApiResponse(success: false, message: e.toString());
+    }
+  }
+}
+
+class StripeCustomerIdCreate {
+  Future<ApiResponse> call({
+    String? user_id = '',
+    String? email = '',
+    bool useFunctionApi = false, // ADDED parameter
+  }) async {
+    try {
+      final response = await JanusApiGroup.makeApiCall(
+        ApiCallType.POST,
+        'smooth-function',
+        data: {'user_id': user_id, 'email': email},
         useFunctionApi: useFunctionApi, // PASSED DOWN
       );
 

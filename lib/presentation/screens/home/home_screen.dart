@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:janus/core/constants/routes.dart';
 import 'package:janus/core/theme/app_theme.dart';
 import 'package:janus/data/services/rest_api.dart';
 import 'package:janus/widgets/supabase/cached_query_flutter.dart';
@@ -33,12 +35,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         body: Center(
           child: Column(
             children: <Widget>[
-              // ElevatedButton(
-              //   onPressed: () {
-              //     GoRouter.of(context).push(AppRoutes.goals);
-              //   },
-              //   child: const Text('Go to Goals'),
-              // ),
+              ElevatedButton(
+                onPressed: () {
+                  GoRouter.of(context).push(AppRoutes.subscription);
+                },
+                child: const Text('Go to Subscription'),
+              ),
               ElevatedButton(
                 onPressed: () async {
                   var result = await JanusApiGroup.hellofun.call(
