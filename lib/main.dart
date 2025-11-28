@@ -42,8 +42,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp.router(
         title: 'Janus',
         theme: AppTheme.lightTheme,
-        darkTheme: AppTheme.darkTheme,
-        themeMode: ThemeMode.system,
+        themeMode: ThemeMode.light,
         scaffoldMessengerKey: scaffoldMessengerKey,
         routerConfig: appRouter,
       ),
