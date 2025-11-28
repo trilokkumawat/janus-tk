@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../data/models/user_model.dart';
+import '../../data/models/user/user_model.dart';
 import '../../data/services/supabase_service.dart';
 
 /// Provider that fetches user data from the users table

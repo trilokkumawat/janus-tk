@@ -52,6 +52,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen>
               child: Text('create customer id'),
             ),
             CachedQueryFlutter(
+              cacheDuration: const Duration(seconds: 5),
               queryKey: 'subscription_plans',
               queryFn: () async {
                 return await _controller.getSubscriptionPlans();

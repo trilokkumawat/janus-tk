@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:janus/data/services/database_function_service.dart';
-import 'package:janus/data/models/subscription_model.dart';
+import 'package:janus/data/models/subscriptionmodel/subscription_model.dart';
 import 'package:janus/data/services/edge_function.dart';
 import 'package:janus/data/services/supabase_service.dart';
 import 'package:janus/presentation/screens/subscription/subscription_screen.dart';
@@ -18,8 +18,10 @@ class SubscriptionController extends StateNotifier<SubscriptionScreen> {
       final plans = plansData
           .map((json) => SubscriptionPlanModel.fromJson(json))
           .toList();
+      print(plans);
       return plans;
     } catch (e) {
+      print(e);
       throw Exception('Failed to get subscription plans: $e');
     }
   }

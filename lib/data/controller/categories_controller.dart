@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/legacy.dart';
 import '../services/supabase_service.dart';
-import '../models/category_model.dart';
+import '../models/categorymodel/category_model.dart';
 
 /// State class for categories
 class CategoriesState {

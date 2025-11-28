@@ -24,8 +24,9 @@ SubscriptionPlanModel _$SubscriptionPlanModelFromJson(
 /// @nodoc
 mixin _$SubscriptionPlanModel {
   String get id => throw _privateConstructorUsedError;
+  @TZDateTimeConverter()
   @JsonKey(name: 'created_at')
-  DateTime? get createdAt => throw _privateConstructorUsedError;
+  TZDateTime? get createdAt => throw _privateConstructorUsedError;
   @JsonKey(name: 'planname')
   String? get planname => throw _privateConstructorUsedError;
   double? get price => throw _privateConstructorUsedError;
@@ -52,7 +53,7 @@ abstract class $SubscriptionPlanModelCopyWith<$Res> {
   @useResult
   $Res call({
     String id,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
+    @TZDateTimeConverter() @JsonKey(name: 'created_at') TZDateTime? createdAt,
     @JsonKey(name: 'planname') String? planname,
     double? price,
     @JsonKey(name: 'stripepriceid') String? stripePriceId,
@@ -94,7 +95,7 @@ class _$SubscriptionPlanModelCopyWithImpl<
             createdAt: freezed == createdAt
                 ? _value.createdAt
                 : createdAt // ignore: cast_nullable_to_non_nullable
-                      as DateTime?,
+                      as TZDateTime?,
             planname: freezed == planname
                 ? _value.planname
                 : planname // ignore: cast_nullable_to_non_nullable
@@ -128,7 +129,7 @@ abstract class _$$SubscriptionPlanModelImplCopyWith<$Res>
   @useResult
   $Res call({
     String id,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
+    @TZDateTimeConverter() @JsonKey(name: 'created_at') TZDateTime? createdAt,
     @JsonKey(name: 'planname') String? planname,
     double? price,
     @JsonKey(name: 'stripepriceid') String? stripePriceId,
@@ -167,7 +168,7 @@ class __$$SubscriptionPlanModelImplCopyWithImpl<$Res>
         createdAt: freezed == createdAt
             ? _value.createdAt
             : createdAt // ignore: cast_nullable_to_non_nullable
-                  as DateTime?,
+                  as TZDateTime?,
         planname: freezed == planname
             ? _value.planname
             : planname // ignore: cast_nullable_to_non_nullable
@@ -194,7 +195,7 @@ class __$$SubscriptionPlanModelImplCopyWithImpl<$Res>
 class _$SubscriptionPlanModelImpl implements _SubscriptionPlanModel {
   const _$SubscriptionPlanModelImpl({
     required this.id,
-    @JsonKey(name: 'created_at') this.createdAt,
+    @TZDateTimeConverter() @JsonKey(name: 'created_at') this.createdAt,
     @JsonKey(name: 'planname') this.planname,
     this.price,
     @JsonKey(name: 'stripepriceid') this.stripePriceId,
@@ -207,8 +208,9 @@ class _$SubscriptionPlanModelImpl implements _SubscriptionPlanModel {
   @override
   final String id;
   @override
+  @TZDateTimeConverter()
   @JsonKey(name: 'created_at')
-  final DateTime? createdAt;
+  final TZDateTime? createdAt;
   @override
   @JsonKey(name: 'planname')
   final String? planname;
@@ -275,7 +277,9 @@ class _$SubscriptionPlanModelImpl implements _SubscriptionPlanModel {
 abstract class _SubscriptionPlanModel implements SubscriptionPlanModel {
   const factory _SubscriptionPlanModel({
     required final String id,
-    @JsonKey(name: 'created_at') final DateTime? createdAt,
+    @TZDateTimeConverter()
+    @JsonKey(name: 'created_at')
+    final TZDateTime? createdAt,
     @JsonKey(name: 'planname') final String? planname,
     final double? price,
     @JsonKey(name: 'stripepriceid') final String? stripePriceId,
@@ -288,8 +292,9 @@ abstract class _SubscriptionPlanModel implements SubscriptionPlanModel {
   @override
   String get id;
   @override
+  @TZDateTimeConverter()
   @JsonKey(name: 'created_at')
-  DateTime? get createdAt;
+  TZDateTime? get createdAt;
   @override
   @JsonKey(name: 'planname')
   String? get planname;

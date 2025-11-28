@@ -4,10 +4,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:janus/core/constants/routes.dart';
 import 'package:janus/core/theme/app_theme.dart';
+import 'package:janus/core/utils/timezone_utils.dart';
 import 'package:janus/data/services/rest_api.dart';
 import 'package:janus/widgets/supabase/cached_query_flutter.dart';
 import 'package:janus/data/controller/categories_controller.dart';
-import 'package:janus/data/models/category_model.dart';
+import 'package:janus/data/models/categorymodel/category_model.dart';
 import 'package:janus/widgets/animations/confetti_overlay.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
@@ -111,7 +112,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           ),
                           trailing: category.createdAt != null
                               ? Text(
-                                  'Created: ${category.createdAt!.day}/${category.createdAt!.month}/${category.createdAt!.year}',
+                                  'Created: ${TimezoneUtils.formatDateTime(category.createdAt, format: 'dd/MM/yyyy') ?? 'N/A'}',
                                   style: Theme.of(context).textTheme.bodySmall
                                       ?.copyWith(
                                         color: AppColors.secondaryText,
