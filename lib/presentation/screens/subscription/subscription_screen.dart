@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:janus/core/constants/dimensions.dart';
 import 'package:janus/core/constants/gaps.dart';
 import 'package:janus/core/extensions/state_extensions.dart';
 import 'package:janus/data/controller/subscription_controller.dart';
 import 'package:janus/widgets/supabase/supabase_widgets.dart';
 
 class SubscriptionScreen extends StatefulWidget {
-  const SubscriptionScreen({super.key});
+  final bool showCancelled;
+
+  const SubscriptionScreen({super.key, this.showCancelled = false});
 
   @override
   _SubscriptionScreenState createState() => _SubscriptionScreenState();
@@ -16,6 +17,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen>
     with SafeStateMixin {
   String selectedPlan = '';
   String selectedPlanid = '';
+  bool showCancelledMessage = false;
 
   late final SubscriptionController _controller;
 
@@ -23,6 +25,23 @@ class _SubscriptionScreenState extends State<SubscriptionScreen>
   void initState() {
     super.initState();
     _controller = SubscriptionController();
+
+    // Set cancelled message if widget was created with showCancelled flag
+    if (widget.showCancelled) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        setState(() {
+          showCancelledMessage = true;
+        });
+        // Clear the cancelled state after 5 seconds
+        Future.delayed(const Duration(seconds: 5), () {
+          if (mounted) {
+            setState(() {
+              showCancelledMessage = false;
+            });
+          }
+        });
+      });
+    }
   }
 
   @override
@@ -45,6 +64,34 @@ class _SubscriptionScreenState extends State<SubscriptionScreen>
               style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
             ),
             Gaps.v8,
+            // Show cancelled message if payment was cancelled
+            if (showCancelledMessage)
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(12),
+                margin: const EdgeInsets.only(bottom: 16),
+                decoration: BoxDecoration(
+                  color: Colors.orange[50],
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: Colors.orange, width: 1),
+                ),
+                child: Row(
+                  children: [
+                    Icon(Icons.cancel, color: Colors.orange[700], size: 20),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        'Payment Cancelled',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.orange[900],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ElevatedButton(
               onPressed: () {
                 _controller.createCustomerId();
@@ -81,11 +128,25 @@ class _SubscriptionScreenState extends State<SubscriptionScreen>
               },
             ),
             selectedPlanid.isNotEmpty
-                ? ElevatedButton(
-                    onPressed: () {
-                      _controller.buySubscription(selectedPlanid);
-                    },
-                    child: Text('Buy Subscription'),
+                ? Column(
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          _controller.buySubscription(selectedPlanid);
+                        },
+                        child: Text('Buy Subscription'),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        'Note: If Safari shows an error after payment, just open the Janus app - it will automatically detect the payment status.',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.grey[600],
+                          fontStyle: FontStyle.italic,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
                   )
                 : SizedBox.shrink(),
           ],

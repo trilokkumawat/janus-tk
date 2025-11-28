@@ -10,6 +10,7 @@ import 'package:janus/presentation/screens/profile/profile_screen.dart';
 import 'package:janus/presentation/screens/projects/projects_screen.dart';
 import 'package:janus/presentation/screens/projects/project_detail_screen.dart';
 import 'package:janus/presentation/screens/subscription/subscription_screen.dart';
+import 'package:janus/presentation/screens/subscription/checkout_result_screen.dart';
 import 'package:janus/presentation/screens/tasks/tasks_screen.dart';
 import 'package:janus/presentation/screens/tasks/task_detail_screen.dart';
 import 'package:janus/presentation/screens/todos/todos_screen.dart';
@@ -234,12 +235,40 @@ class RouteConfig {
         GoRoute(
           path: AppRoutes.subscription,
           name: 'subscription',
-          pageBuilder: (context, state) => _fadeTransition(
-            context: context,
-            state: state,
-            child: const SubscriptionScreen(),
-          ),
+          pageBuilder: (context, state) {
+            // Pass cancelled parameter if present
+            final cancelled = state.uri.queryParameters['cancelled'];
+            return _fadeTransition(
+              context: context,
+              state: state,
+              child: SubscriptionScreen(showCancelled: cancelled == 'true'),
+            );
+          },
         ),
+        GoRoute(
+          path: AppRoutes.checkoutSuccess,
+          name: 'checkout-success',
+          pageBuilder: (context, state) {
+            final sessionId = state.uri.queryParameters['session_id'];
+            return _fadeTransition(
+              context: context,
+              state: state,
+              child: CheckoutResultScreen(
+                isSuccess: true,
+                sessionId: sessionId,
+              ),
+            );
+          },
+        ),
+        // GoRoute(
+        //   path: AppRoutes.checkoutCancel,
+        //   name: 'checkout-cancel',
+        //   pageBuilder: (context, state) => _fadeTransition(
+        //     context: context,
+        //     state: state,
+        //     child: const SubscriptionScreen(showCancelled: true),
+        //   ),
+        // ),
         GoRoute(
           path: AppRoutes.profile,
           name: 'profile',
