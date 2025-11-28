@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:janus/core/constants/app_text_style.dart';
 import 'package:janus/core/constants/gaps.dart';
 import 'package:janus/core/extensions/state_extensions.dart';
 import 'package:janus/data/controller/subscription_controller.dart';
@@ -59,11 +60,8 @@ class _SubscriptionScreenState extends State<SubscriptionScreen>
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Upgrade to Premium',
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-            ),
-            Gaps.v8,
+            Text('Upgrade to Premium', style: AppTextStyle.h4),
+            Gaps.h10,
             // Show cancelled message if payment was cancelled
             if (showCancelledMessage)
               Container(
@@ -82,8 +80,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen>
                     Expanded(
                       child: Text(
                         'Payment Cancelled',
-                        style: TextStyle(
-                          fontSize: 14,
+                        style: AppTextStyle.warning.copyWith(
                           fontWeight: FontWeight.w500,
                           color: Colors.orange[900],
                         ),
@@ -139,8 +136,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen>
                       const SizedBox(height: 8),
                       Text(
                         'Note: If Safari shows an error after payment, just open the Janus app - it will automatically detect the payment status.',
-                        style: TextStyle(
-                          fontSize: 12,
+                        style: AppTextStyle.caption.copyWith(
                           color: Colors.grey[600],
                           fontStyle: FontStyle.italic,
                         ),
@@ -189,9 +185,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen>
               children: [
                 Text(
                   planName,
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
+                  style: AppTextStyle.h5.copyWith(
                     color: isSelected ? Colors.blue : Colors.black87,
                   ),
                 ),
@@ -205,7 +199,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen>
                     ),
                     child: Text(
                       'Best value',
-                      style: TextStyle(color: Colors.white, fontSize: 12),
+                      style: AppTextStyle.caption.copyWith(color: Colors.white),
                     ),
                   ),
               ],
@@ -213,8 +207,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen>
             SizedBox(height: 8),
             Text(
               "\$${price}",
-              style: TextStyle(
-                fontSize: 16,
+              style: AppTextStyle.bodyLarge.copyWith(
                 color: isSelected ? Colors.blue : Colors.black54,
               ),
             ),
@@ -228,7 +221,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen>
                         Expanded(
                           child: Text(
                             feature,
-                            style: TextStyle(
+                            style: AppTextStyle.bodyMedium.copyWith(
                               color: isSelected ? Colors.blue : Colors.black54,
                             ),
                           ),

@@ -1,10 +1,10 @@
 String? validateEmail(String? value) {
   if (value == null || value.isEmpty) {
-    return 'Please enter your email';
+    return 'Enter your email address';
   }
   final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
   if (!emailRegex.hasMatch(value)) {
-    return 'Please enter a valid email';
+    return 'Enter a valid email address';
   }
   return null;
 }
@@ -12,10 +12,10 @@ String? validateEmail(String? value) {
 /// Validate password input
 String? validatePassword(String? value) {
   if (value == null || value.isEmpty) {
-    return 'Please enter your password';
+    return 'Enter your password';
   }
   if (value.length < 6) {
-    return 'Password must be at least 6 characters';
+    return 'Password must be at least 6 characters long';
   }
   return null;
 }

@@ -1,37 +1,38 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
-/// Common gap widgets for consistent vertical and horizontal spacing.
-/// Usage: Gaps.v8, Gaps.h16, etc.
+/// Custom vertical gaps for consistent spacing
 class Gaps {
-  Gaps._();
+  // Height gaps
+  static const Widget h4 = SizedBox(height: 4);
+  static const Widget h8 = SizedBox(height: 8);
+  static const Widget h10 = SizedBox(height: 10);
+  static const Widget h12 = SizedBox(height: 12);
+  static const Widget h16 = SizedBox(height: 16);
+  static const Widget h20 = SizedBox(height: 20);
+  static const Widget h25 = SizedBox(height: 25);
+  static const Widget h30 = SizedBox(height: 30);
 
-  // Vertical gaps
-  static const Widget v4 = SizedBox(height: 4);
-  static const Widget v8 = SizedBox(height: 8);
-  static const Widget v12 = SizedBox(height: 12);
-  static const Widget v16 = SizedBox(height: 16);
-  static const Widget v24 = SizedBox(height: 24);
-  static const Widget v32 = SizedBox(height: 32);
-  static const Widget v48 = SizedBox(height: 48);
-  static const Widget v64 = SizedBox(height: 64);
-  static const Widget v96 = SizedBox(height: 96);
-  static const Widget v128 = SizedBox(height: 128);
-  static const Widget v180 = SizedBox(height: 180);
-  static const Widget v200 = SizedBox(height: 200);
-  static const Widget v250 = SizedBox(height: 250);
+  static const Widget h24 = SizedBox(height: 24);
+  static const Widget h32 = SizedBox(height: 32);
+  static const Widget h40 = SizedBox(height: 40);
+  static const Widget h48 = SizedBox(height: 48);
+  static const Widget h56 = SizedBox(height: 56);
+  static const Widget h64 = SizedBox(height: 64);
 
-  // Horizontal gaps
-  static const Widget h4 = SizedBox(width: 4);
-  static const Widget h8 = SizedBox(width: 8);
-  static const Widget h12 = SizedBox(width: 12);
-  static const Widget h16 = SizedBox(width: 16);
-  static const Widget h24 = SizedBox(width: 24);
-  static const Widget h32 = SizedBox(width: 32);
-  static const Widget h48 = SizedBox(width: 48);
-  static const Widget h64 = SizedBox(width: 64);
-  static const Widget h96 = SizedBox(width: 96);
-  static const Widget h128 = SizedBox(width: 128);
-  static const Widget h180 = SizedBox(width: 180);
-  static const Widget h200 = SizedBox(width: 200);
-  static const Widget h250 = SizedBox(width: 250);
+  // Width gaps
+  static const Widget w4 = SizedBox(width: 4);
+  static const Widget w8 = SizedBox(width: 8);
+  static const Widget w12 = SizedBox(width: 12);
+  static const Widget w16 = SizedBox(width: 16);
+  static const Widget w20 = SizedBox(width: 20);
+  static const Widget w24 = SizedBox(width: 24);
+  static const Widget w32 = SizedBox(width: 32);
+  static const Widget w40 = SizedBox(width: 40);
+  static const Widget w48 = SizedBox(width: 48);
+  static const Widget w56 = SizedBox(width: 56);
+  static const Widget w64 = SizedBox(width: 64);
+
+  // Custom size
+  static Widget height(double value) => SizedBox(height: value);
+  static Widget width(double value) => SizedBox(width: value);
 }

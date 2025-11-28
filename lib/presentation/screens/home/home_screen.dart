@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:janus/core/constants/app_text_style.dart';
 import 'package:janus/core/constants/routes.dart';
 import 'package:janus/core/theme/app_theme.dart';
 import 'package:janus/core/utils/timezone_utils.dart';
@@ -91,8 +92,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         const SizedBox(height: 12),
                         Text(
                           'Loading categories...',
-                          style: Theme.of(context).textTheme.bodyMedium
-                              ?.copyWith(color: AppColors.secondaryText),
+                          style: AppTextStyle.bodyMedium.copyWith(
+                            color: AppColors.secondaryText,
+                          ),
                         ),
                       ],
                     ),
@@ -113,10 +115,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           trailing: category.createdAt != null
                               ? Text(
                                   'Created: ${TimezoneUtils.formatDateTime(category.createdAt, format: 'dd/MM/yyyy') ?? 'N/A'}',
-                                  style: Theme.of(context).textTheme.bodySmall
-                                      ?.copyWith(
-                                        color: AppColors.secondaryText,
-                                      ),
+                                  style: AppTextStyle.bodySmall.copyWith(
+                                    color: AppColors.secondaryText,
+                                  ),
                                 )
                               : null,
                         );

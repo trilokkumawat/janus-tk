@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:janus/core/constants/fontsize.dart';
 
 /// A widget that displays a muted value indicator
 ///
@@ -140,9 +141,9 @@ class MutedValueBadge extends StatelessWidget {
               ),
               child: Text(
                 badgeText ?? 'MUTED',
-                style: const TextStyle(
+                style: TextStyle(
                   color: Colors.white,
-                  fontSize: 10,
+                  fontSize: CustomFontSize.overline,
                   fontWeight: FontWeight.bold,
                 ),
               ),

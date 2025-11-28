@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:janus/core/constants/fontsize.dart';
 
 class AppColors {
   // Primary Gradients
@@ -68,40 +69,49 @@ class AppTheme {
       ),
       scaffoldBackgroundColor: AppColors.lightBackground,
       cardColor: AppColors.lightCard,
-      textTheme: const TextTheme(
+      textTheme: TextTheme(
         displayLarge: TextStyle(
           color: AppColors.darkText,
-          fontSize: 32,
+          fontSize: CustomFontSize.h1,
           fontWeight: FontWeight.bold,
         ),
         displayMedium: TextStyle(
           color: AppColors.darkText,
-          fontSize: 28,
+          fontSize: CustomFontSize.h2,
           fontWeight: FontWeight.bold,
         ),
         displaySmall: TextStyle(
           color: AppColors.darkText,
-          fontSize: 24,
+          fontSize: CustomFontSize.h3,
           fontWeight: FontWeight.bold,
         ),
         headlineLarge: TextStyle(
           color: AppColors.darkText,
-          fontSize: 22,
+          fontSize: CustomFontSize.h4,
           fontWeight: FontWeight.w600,
         ),
         headlineMedium: TextStyle(
           color: AppColors.darkText,
-          fontSize: 20,
+          fontSize: CustomFontSize.h4,
           fontWeight: FontWeight.w600,
         ),
         headlineSmall: TextStyle(
           color: AppColors.darkText,
-          fontSize: 18,
+          fontSize: CustomFontSize.h5,
           fontWeight: FontWeight.w600,
         ),
-        bodyLarge: TextStyle(color: AppColors.darkText, fontSize: 16),
-        bodyMedium: TextStyle(color: AppColors.darkText, fontSize: 14),
-        bodySmall: TextStyle(color: AppColors.secondaryText, fontSize: 12),
+        bodyLarge: TextStyle(
+          color: AppColors.darkText,
+          fontSize: CustomFontSize.bodyLarge,
+        ),
+        bodyMedium: TextStyle(
+          color: AppColors.darkText,
+          fontSize: CustomFontSize.bodyMedium,
+        ),
+        bodySmall: TextStyle(
+          color: AppColors.secondaryText,
+          fontSize: CustomFontSize.bodySmall,
+        ),
       ),
       appBarTheme: const AppBarTheme(
         backgroundColor: AppColors.lightCard,
@@ -123,7 +133,10 @@ class AppTheme {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
-          textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          textStyle: TextStyle(
+            fontSize: CustomFontSize.buttonLarge,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
       filledButtonTheme: FilledButtonThemeData(
@@ -134,7 +147,10 @@ class AppTheme {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
-          textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          textStyle: TextStyle(
+            fontSize: CustomFontSize.buttonLarge,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
       textButtonTheme: TextButtonThemeData(
@@ -142,7 +158,10 @@ class AppTheme {
           foregroundColor: AppColors.purple,
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-          textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+          textStyle: TextStyle(
+            fontSize: CustomFontSize.buttonMedium,
+            fontWeight: FontWeight.w600,
+          ),
         ),
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
@@ -153,7 +172,10 @@ class AppTheme {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
-          textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+          textStyle: TextStyle(
+            fontSize: CustomFontSize.buttonLarge,
+            fontWeight: FontWeight.w600,
+          ),
         ),
       ),
       // Icon Button Theme
@@ -193,40 +215,49 @@ class AppTheme {
       ),
       scaffoldBackgroundColor: AppColors.darkBackground,
       cardColor: AppColors.darkCard,
-      textTheme: const TextTheme(
+      textTheme: TextTheme(
         displayLarge: TextStyle(
           color: AppColors.lightText,
-          fontSize: 32,
+          fontSize: CustomFontSize.h1,
           fontWeight: FontWeight.bold,
         ),
         displayMedium: TextStyle(
           color: AppColors.lightText,
-          fontSize: 28,
+          fontSize: CustomFontSize.h2,
           fontWeight: FontWeight.bold,
         ),
         displaySmall: TextStyle(
           color: AppColors.lightText,
-          fontSize: 24,
+          fontSize: CustomFontSize.h3,
           fontWeight: FontWeight.bold,
         ),
         headlineLarge: TextStyle(
           color: AppColors.lightText,
-          fontSize: 22,
+          fontSize: CustomFontSize.h4,
           fontWeight: FontWeight.w600,
         ),
         headlineMedium: TextStyle(
           color: AppColors.lightText,
-          fontSize: 20,
+          fontSize: CustomFontSize.h4,
           fontWeight: FontWeight.w600,
         ),
         headlineSmall: TextStyle(
           color: AppColors.lightText,
-          fontSize: 18,
+          fontSize: CustomFontSize.h5,
           fontWeight: FontWeight.w600,
         ),
-        bodyLarge: TextStyle(color: AppColors.lightText, fontSize: 16),
-        bodyMedium: TextStyle(color: AppColors.lightText, fontSize: 14),
-        bodySmall: TextStyle(color: AppColors.secondaryText, fontSize: 12),
+        bodyLarge: TextStyle(
+          color: AppColors.lightText,
+          fontSize: CustomFontSize.bodyLarge,
+        ),
+        bodyMedium: TextStyle(
+          color: AppColors.lightText,
+          fontSize: CustomFontSize.bodyMedium,
+        ),
+        bodySmall: TextStyle(
+          color: AppColors.secondaryText,
+          fontSize: CustomFontSize.bodySmall,
+        ),
       ),
       appBarTheme: const AppBarTheme(
         backgroundColor: AppColors.darkCard,
@@ -248,7 +279,10 @@ class AppTheme {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
-          textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          textStyle: TextStyle(
+            fontSize: CustomFontSize.buttonLarge,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
       filledButtonTheme: FilledButtonThemeData(
@@ -259,7 +293,10 @@ class AppTheme {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
-          textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          textStyle: TextStyle(
+            fontSize: CustomFontSize.buttonLarge,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
       textButtonTheme: TextButtonThemeData(
@@ -267,7 +304,10 @@ class AppTheme {
           foregroundColor: AppColors.purple,
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-          textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+          textStyle: TextStyle(
+            fontSize: CustomFontSize.buttonMedium,
+            fontWeight: FontWeight.w600,
+          ),
         ),
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
@@ -278,7 +318,10 @@ class AppTheme {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
-          textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+          textStyle: TextStyle(
+            fontSize: CustomFontSize.buttonLarge,
+            fontWeight: FontWeight.w600,
+          ),
         ),
       ),
       // Icon Button Theme

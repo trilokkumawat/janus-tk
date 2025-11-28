@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:janus/core/constants/app_text_style.dart';
 import 'package:janus/core/constants/routes.dart';
 
 class CheckoutResultScreen extends StatelessWidget {
@@ -32,10 +33,7 @@ class CheckoutResultScreen extends StatelessWidget {
               const SizedBox(height: 24),
               Text(
                 isSuccess ? 'Payment Successful!' : 'Payment Cancelled',
-                style: const TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: AppTextStyle.h3,
               ),
               const SizedBox(height: 16),
               Text(
@@ -43,7 +41,9 @@ class CheckoutResultScreen extends StatelessWidget {
                     ? 'Your subscription has been activated successfully!'
                     : 'Your payment was cancelled. No charges were made.',
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 16, color: Colors.grey[700]),
+                style: AppTextStyle.bodyLarge.copyWith(
+                  color: Colors.grey[700],
+                ),
               ),
               const SizedBox(height: 16),
               if (sessionId != null)
@@ -58,8 +58,7 @@ class CheckoutResultScreen extends StatelessWidget {
                     children: [
                       Text(
                         'Session ID:',
-                        style: TextStyle(
-                          fontSize: 12,
+                        style: AppTextStyle.caption.copyWith(
                           color: Colors.grey[600],
                           fontWeight: FontWeight.bold,
                         ),
@@ -67,8 +66,7 @@ class CheckoutResultScreen extends StatelessWidget {
                       const SizedBox(height: 4),
                       Text(
                         sessionId!,
-                        style: TextStyle(
-                          fontSize: 12,
+                        style: AppTextStyle.caption.copyWith(
                           color: Colors.grey[800],
                           fontFamily: 'monospace',
                         ),
