@@ -5,6 +5,7 @@ import 'package:janus/core/routes/route_config.dart';
 import 'package:janus/core/theme/app_theme.dart';
 import 'package:janus/data/services/auth_service.dart';
 import 'package:janus/widgets/auth/session_expiration_handler.dart';
+import 'package:janus/widgets/common/internet.dart';
 import 'package:janus/widgets/navigation/app_router.dart';
 import 'data/services/supabase_service.dart';
 import 'data/services/deep_link_service.dart';
@@ -45,6 +46,9 @@ class MyApp extends StatelessWidget {
         themeMode: ThemeMode.light,
         scaffoldMessengerKey: scaffoldMessengerKey,
         routerConfig: appRouter,
+        builder: (context, child) {
+          return ConnectivityBanner(child: child ?? const SizedBox.shrink());
+        },
       ),
     );
   }
