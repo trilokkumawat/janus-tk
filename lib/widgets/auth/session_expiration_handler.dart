@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:janus/core/constants/routes.dart';
-import 'package:janus/data/services/auth_service.dart';
+import 'package:janus/data/services/auth/auth_service.dart';
 import 'package:janus/widgets/navigation/app_router.dart';
 import '../../main.dart';
 

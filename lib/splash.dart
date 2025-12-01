@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:janus/core/constants/routes.dart';
-import 'package:janus/data/services/auth_service.dart';
+import 'package:janus/data/services/auth/auth_service.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});

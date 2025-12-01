@@ -1,22 +1,25 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:janus/core/constants/tbconstant.dart';
 import '../../data/models/user/user_model.dart';
-import '../../data/services/supabase_service.dart';
+import '../../data/services/supabase_fn/supabase_service.dart';
 
 /// Provider that fetches user data from the users table
 /// Automatically updates when auth state changes
 final userDataProvider = StreamProvider<UserModel?>((ref) async* {
   // Fetch initial user data if user is already logged in
   final initialUser = SupabaseService.instance.currentUser;
+  print("user debugprint:${initialUser?.id}");
   if (initialUser != null) {
     try {
       final response = await SupabaseService.client
-          .from('users')
+          .from(Tb.users)
           .select()
           .eq('id', initialUser.id)
           .single();
 
       yield UserModel.fromJson(Map<String, dynamic>.from(response));
     } catch (e) {
+      print(e);
       yield null;
     }
   } else {
@@ -36,7 +39,7 @@ final userDataProvider = StreamProvider<UserModel?>((ref) async* {
     try {
       // Fetch user data from the users table
       final response = await SupabaseService.client
-          .from('users')
+          .from(Tb.users)
           .select()
           .eq('id', user.id)
           .single();

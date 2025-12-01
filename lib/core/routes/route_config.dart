@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:janus/app.dart';
 import 'package:janus/core/constants/routes.dart';
-import 'package:janus/data/services/auth_service.dart';
+import 'package:janus/data/services/auth/auth_service.dart';
 import 'package:janus/presentation/screens/auth/login_screen.dart';
 import 'package:janus/presentation/screens/auth/forgot_password_screen.dart';
 import 'package:janus/presentation/screens/home/home_screen.dart';

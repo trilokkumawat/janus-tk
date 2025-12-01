@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
-import '../services/auth_service.dart';
+import '../services/auth/auth_service.dart';
 
 /// State class for login screen
 class LoginState {

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import '../../data/services/supabase_service.dart';
+import '../../data/services/supabase_fn/supabase_service.dart';
 
 /// Cache entry model
 class _CacheEntry<T> {

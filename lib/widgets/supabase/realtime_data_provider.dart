@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import '../../data/services/supabase_service.dart';
+import '../../data/services/supabase_fn/supabase_service.dart';
 
 /// Provider for real-time data from Supabase using StreamProvider
 ///

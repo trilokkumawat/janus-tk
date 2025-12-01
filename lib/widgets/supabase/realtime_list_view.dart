@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import '../../data/services/supabase_service.dart';
+import '../../data/services/supabase_fn/supabase_service.dart';
 import '../../core/extensions/state_extensions.dart';
 
 /// A specialized ListView that displays real-time data from Supabase

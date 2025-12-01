@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:janus/domain/entities/appheaderenum.dart';
-import 'package:janus/data/services/api_error_handler.dart';
+import 'package:janus/domain/entities/enumberable.dart';
+import 'package:janus/data/services/api/api_error_handler.dart';
 
 /// Handles API calls using Dio
 class ApiCallHandler {

@@ -3,12 +3,12 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:janus/core/routes/route_config.dart';
 import 'package:janus/core/theme/app_theme.dart';
-import 'package:janus/data/services/auth_service.dart';
+import 'package:janus/data/services/auth/auth_service.dart';
 import 'package:janus/widgets/auth/session_expiration_handler.dart';
 import 'package:janus/widgets/common/internet.dart';
 import 'package:janus/widgets/navigation/app_router.dart';
-import 'data/services/supabase_service.dart';
-import 'data/services/deep_link_service.dart';
+import 'data/services/supabase_fn/supabase_service.dart';
+import 'data/services/deeplink/deep_link_service.dart';
 
 // Global scaffold messenger key for showing messages from anywhere
 final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =

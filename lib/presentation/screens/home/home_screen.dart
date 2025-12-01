@@ -6,11 +6,12 @@ import 'package:janus/core/constants/app_text_style.dart';
 import 'package:janus/core/constants/routes.dart';
 import 'package:janus/core/theme/app_theme.dart';
 import 'package:janus/core/utils/timezone_utils.dart';
-import 'package:janus/data/services/rest_api.dart';
+import 'package:janus/data/services/api/rest_api.dart';
 import 'package:janus/widgets/supabase/cached_query_flutter.dart';
 import 'package:janus/data/controller/categories_controller.dart';
 import 'package:janus/data/models/categorymodel/category_model.dart';
 import 'package:janus/widgets/animations/confetti_overlay.dart';
+import 'package:janus/presentation/providers/user_provider.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -22,6 +23,8 @@ class HomeScreen extends ConsumerStatefulWidget {
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
+    final userDataAsync = ref.watch(userDataProvider);
+
     return ConfettiOverlay(
       particleCount: 50,
       colors: const [
@@ -37,6 +40,18 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         body: Center(
           child: Column(
             children: <Widget>[
+              userDataAsync.when(
+                data: (user) {
+                  final email = user?.email;
+                  final greeting = email == null
+                      ? 'Welcome!'
+                      : 'Welcome, $email';
+                  return Text(greeting);
+                },
+                loading: () => const CircularProgressIndicator(),
+                error: (_, __) =>
+                    const Text('Unable to load your profile right now'),
+              ),
               ElevatedButton(
                 onPressed: () {
                   GoRouter.of(context).push(AppRoutes.subscription);

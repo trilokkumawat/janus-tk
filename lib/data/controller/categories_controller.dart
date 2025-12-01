@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/legacy.dart';
-import '../services/supabase_service.dart';
+import '../services/supabase_fn/supabase_service.dart';
 import '../models/categorymodel/category_model.dart';
 
 /// State class for categories

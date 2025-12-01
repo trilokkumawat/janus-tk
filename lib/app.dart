@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:janus/core/theme/app_theme.dart';
-import 'package:janus/data/services/auth_service.dart';
-import 'package:janus/domain/entities/appheaderenum.dart';
+import 'package:janus/data/services/auth/auth_service.dart';
+import 'package:janus/domain/entities/enumberable.dart';
 import 'package:janus/presentation/screens/home/home_screen.dart';
 
 /// Main application widget using BottomNavigationBar to navigate
@@ -34,15 +34,6 @@ class _AppStateState extends State<AppState> {
   // Use a GlobalKey to access the ScaffoldMessenger context after MaterialApp builds Scaffolds.
   final GlobalKey<ScaffoldMessengerState> _scaffoldMessengerKey =
       GlobalKey<ScaffoldMessengerState>();
-
-  // Example placeholder action for FAB
-  void _onFabPressed() {
-    _scaffoldMessengerKey.currentState?.showSnackBar(
-      SnackBar(
-        content: Text('Floating Action Button pressed on tab $_selectedIndex'),
-      ),
-    );
-  }
 
   String getHeaderTitle(int index) {
     switch (index) {

@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'package:flutter_riverpod/legacy.dart';
-import 'package:janus/data/services/database_function_service.dart';
+import 'package:janus/data/services/supabase_fn/database_function_service.dart';
 import 'package:janus/data/models/subscriptionmodel/subscription_model.dart';
-import 'package:janus/data/services/edge_function.dart';
-import 'package:janus/data/services/supabase_service.dart';
+import 'package:janus/data/services/supabase_fn/edge_function.dart';
+import 'package:janus/data/services/supabase_fn/supabase_service.dart';
 import 'package:janus/presentation/screens/subscription/subscription_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 

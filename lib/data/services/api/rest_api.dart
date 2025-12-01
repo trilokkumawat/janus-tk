@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:janus/core/constants/supabase_constants.dart';
-import 'package:janus/domain/entities/appheaderenum.dart';
-import 'package:janus/data/services/api_call_handler.dart';
+import 'package:janus/domain/entities/enumberable.dart';
+import 'package:janus/data/services/api/api_call_handler.dart';
 
 class JanusApiGroup {
   static const String baseUrl = 'https://your-api-base-url.com';
