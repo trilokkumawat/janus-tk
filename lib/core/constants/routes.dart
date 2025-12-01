@@ -6,6 +6,9 @@ class AppRoutes {
   static const String onboarding = '/onboarding';
 
   static const String appState = '/app-state';
+  static const String subscription = '/subscription';
+  static const String checkoutSuccess = '/checkout-success';
+  static const String checkoutCancel = '/checkout-cancel';
 
   // Auth routes
   static const String login = '/login';

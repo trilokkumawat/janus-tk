@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:janus/core/constants/fontsize.dart';
 import 'realtime_data_provider.dart';
 
 /// A badge widget that displays a count with real-time updates
@@ -69,7 +70,7 @@ class RealtimeBadge extends ConsumerWidget {
           textColor: textColor ?? Colors.white,
           label: Text(
             count > 99 ? '99+' : count.toString(),
-            style: const TextStyle(fontSize: 10),
+            style: TextStyle(fontSize: CustomFontSize.overline),
           ),
           child: child,
         );

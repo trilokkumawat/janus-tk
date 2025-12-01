@@ -2,19 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:janus/app.dart';
 import 'package:janus/core/constants/routes.dart';
+import 'package:janus/data/services/auth_service.dart';
 import 'package:janus/presentation/screens/auth/login_screen.dart';
-import 'package:janus/presentation/screens/auth/register_screen.dart';
 import 'package:janus/presentation/screens/auth/forgot_password_screen.dart';
 import 'package:janus/presentation/screens/home/home_screen.dart';
 import 'package:janus/presentation/screens/profile/profile_screen.dart';
 import 'package:janus/presentation/screens/projects/projects_screen.dart';
 import 'package:janus/presentation/screens/projects/project_detail_screen.dart';
+import 'package:janus/presentation/screens/subscription/subscription_screen.dart';
+import 'package:janus/presentation/screens/subscription/checkout_result_screen.dart';
 import 'package:janus/presentation/screens/tasks/tasks_screen.dart';
 import 'package:janus/presentation/screens/tasks/task_detail_screen.dart';
 import 'package:janus/presentation/screens/todos/todos_screen.dart';
 import 'package:janus/presentation/screens/todos/todo_detail_screen.dart';
 import 'package:janus/presentation/screens/goals/goals_screen.dart';
 import 'package:janus/presentation/screens/goals/goal_detail_screen.dart';
+import 'package:janus/widgets/common/page_not_found_screen.dart';
 import 'package:janus/splash.dart';
 
 /// Route configuration for the application
@@ -133,10 +136,33 @@ class RouteConfig {
     }
   }
 
+  /// Redirect function to check authentication
+  static String? _redirect(BuildContext context, GoRouterState state) {
+    final isAuthenticated = SupabaseAuth.isAuthenticated;
+    final isLoginRoute =
+        state.matchedLocation == AppRoutes.login ||
+        state.matchedLocation == AppRoutes.forgotPassword;
+    final isSplashRoute = state.matchedLocation == AppRoutes.splash;
+
+    // If user is not authenticated and trying to access protected routes
+    if (!isAuthenticated && !isLoginRoute && !isSplashRoute) {
+      return AppRoutes.login;
+    }
+
+    // If user is authenticated and trying to access login/forgot password
+    if (isAuthenticated && isLoginRoute) {
+      return AppRoutes.appState;
+    }
+
+    // No redirect needed
+    return null;
+  }
+
   static GoRouter createRouter() {
     return GoRouter(
       initialLocation: AppRoutes.splash,
       refreshListenable: _refreshNotifier,
+      redirect: _redirect,
       routes: [
         // Splash/Onboarding
         GoRoute(
@@ -206,6 +232,43 @@ class RouteConfig {
             child: const HomeScreen(),
           ),
         ),
+        GoRoute(
+          path: AppRoutes.subscription,
+          name: 'subscription',
+          pageBuilder: (context, state) {
+            // Pass cancelled parameter if present
+            final cancelled = state.uri.queryParameters['cancelled'];
+            return _fadeTransition(
+              context: context,
+              state: state,
+              child: SubscriptionScreen(showCancelled: cancelled == 'true'),
+            );
+          },
+        ),
+        GoRoute(
+          path: AppRoutes.checkoutSuccess,
+          name: 'checkout-success',
+          pageBuilder: (context, state) {
+            final sessionId = state.uri.queryParameters['session_id'];
+            return _fadeTransition(
+              context: context,
+              state: state,
+              child: CheckoutResultScreen(
+                isSuccess: true,
+                sessionId: sessionId,
+              ),
+            );
+          },
+        ),
+        // GoRoute(
+        //   path: AppRoutes.checkoutCancel,
+        //   name: 'checkout-cancel',
+        //   pageBuilder: (context, state) => _fadeTransition(
+        //     context: context,
+        //     state: state,
+        //     child: const SubscriptionScreen(showCancelled: true),
+        //   ),
+        // ),
         GoRoute(
           path: AppRoutes.profile,
           name: 'profile',
@@ -317,31 +380,8 @@ class RouteConfig {
           ],
         ),
       ],
-      errorBuilder: (context, state) => Scaffold(
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Icon(Icons.error_outline, size: 64, color: Colors.red),
-              const SizedBox(height: 16),
-              Text(
-                'Page not found',
-                style: Theme.of(context).textTheme.headlineSmall,
-              ),
-              const SizedBox(height: 8),
-              Text(
-                state.uri.toString(),
-                style: Theme.of(context).textTheme.bodyMedium,
-              ),
-              const SizedBox(height: 24),
-              ElevatedButton(
-                onPressed: () => context.pop(),
-                child: const Text('Back'),
-              ),
-            ],
-          ),
-        ),
-      ),
+      errorBuilder: (context, state) =>
+          PageNotFoundScreen(uri: state.uri.toString()),
     );
   }
 }

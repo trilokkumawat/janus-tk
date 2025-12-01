@@ -45,5 +45,30 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<!-- Required for url_launcher to work on iOS 9+ -->
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>https</string>
+		<string>http</string>
+		<string>tel</string>
+		<string>mailto</string>
+		<string>sms</string>
+	</array>
+	<!-- Deep link URL scheme for janus:// -->
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>janus.deeplink</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>janus</string>
+			</array>
+			<key>CFBundleURLIconFile</key>
+			<string></string>
+		</dict>
+	</array>
 </dict>
 </plist>

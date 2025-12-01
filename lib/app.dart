@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:janus/core/constants/routes.dart';
+import 'package:janus/core/theme/app_theme.dart';
 import 'package:janus/data/services/auth_service.dart';
-import 'package:janus/domain/entities/appstateheader.dart';
+import 'package:janus/domain/entities/appheaderenum.dart';
 import 'package:janus/presentation/screens/home/home_screen.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 /// Main application widget using BottomNavigationBar to navigate
 /// between common app tabs and keeping state alive for each tab using IndexedStack.
@@ -56,18 +54,20 @@ class _AppStateState extends State<AppState> {
         return AppStateHeader.todos.name;
       case 3:
         return AppStateHeader.profile.name;
+      default:
+        return '';
     }
-    return '';
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
+      themeMode: ThemeMode.system,
       scaffoldMessengerKey: _scaffoldMessengerKey,
       home: Scaffold(
-        appBar: AppBar(
-          title: Text("${getHeaderTitle(_selectedIndex)}".toUpperCase()),
-        ),
+        appBar: AppBar(title: Text(getHeaderTitle(_selectedIndex))),
         body: IndexedStack(index: _selectedIndex, children: _screens),
         bottomNavigationBar: BottomNavigationBar(
           items: const <BottomNavigationBarItem>[

@@ -46,6 +46,11 @@ dependencies:
   timezone: ^0.10.1
   supabase_flutter: ^2.5.6
   flutter_dotenv: ^5.1.0
+  dio: ^5.4.0
+  url_launcher: ^6.3.2
+  app_links: ^6.3.2
+  google_fonts: ^6.2.1
+  internet_connection_checker: ^3.0.1
 
 dev_dependencies:
   flutter_test:
@@ -76,7 +81,7 @@ flutter:
   assets:
     - .env
     - assets/img/
-  #   - images/a_dot_ham.jpeg
+    - assets/animations/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

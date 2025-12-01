@@ -1,12 +1,16 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:janus/core/constants/app_text_style.dart';
 import 'package:janus/core/constants/routes.dart';
+import 'package:janus/core/theme/app_theme.dart';
+import 'package:janus/core/utils/timezone_utils.dart';
+import 'package:janus/data/services/rest_api.dart';
 import 'package:janus/widgets/supabase/cached_query_flutter.dart';
 import 'package:janus/data/controller/categories_controller.dart';
-import 'package:janus/data/models/category_model.dart';
+import 'package:janus/data/models/categorymodel/category_model.dart';
 import 'package:janus/widgets/animations/confetti_overlay.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -16,18 +20,16 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
-  int _counter = 0;
-
   @override
   Widget build(BuildContext context) {
     return ConfettiOverlay(
       particleCount: 50,
       colors: const [
-        Colors.green,
-        Colors.blue,
-        Colors.pink,
-        Colors.orange,
-        Colors.purple,
+        AppColors.green,
+        AppColors.blue,
+        AppColors.coral,
+        AppColors.orange,
+        AppColors.purple,
       ],
       duration: const Duration(seconds: 3),
       gravity: 0.1,
@@ -37,10 +39,36 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             children: <Widget>[
               ElevatedButton(
                 onPressed: () {
-                  GoRouter.of(context).push(AppRoutes.goals);
+                  GoRouter.of(context).push(AppRoutes.subscription);
+                },
+                child: const Text('Go to Subscription'),
+              ),
+              ElevatedButton(
+                onPressed: () async {
+                  var result = await JanusApiGroup.hellofun.call(
+                    useFunctionApi: true,
+                  );
+                  if (result.success) {
+                    String dataString;
+                    if (result.data is String) {
+                      dataString = result.data as String;
+                    } else if (result.data is Map) {
+                      dataString = jsonEncode(result.data);
+                    } else {
+                      dataString = result.data?.toString() ?? 'Success';
+                    }
+                    ScaffoldMessenger.of(
+                      context,
+                    ).showSnackBar(SnackBar(content: Text(dataString)));
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text(result.message ?? '')),
+                    );
+                  }
                 },
                 child: const Text('Go to Goals'),
               ),
+
               Expanded(
                 child: CachedQueryFlutter<CategoryModel>(
                   queryKey: 'category_list',
@@ -64,8 +92,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         const SizedBox(height: 12),
                         Text(
                           'Loading categories...',
-                          style: Theme.of(context).textTheme.bodyMedium
-                              ?.copyWith(color: Colors.grey[600]),
+                          style: AppTextStyle.bodyMedium.copyWith(
+                            color: AppColors.secondaryText,
+                          ),
                         ),
                       ],
                     ),
@@ -85,9 +114,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           ),
                           trailing: category.createdAt != null
                               ? Text(
-                                  'Created: ${category.createdAt!.day}/${category.createdAt!.month}/${category.createdAt!.year}',
-                                  style: Theme.of(context).textTheme.bodySmall
-                                      ?.copyWith(color: Colors.grey),
+                                  'Created: ${TimezoneUtils.formatDateTime(category.createdAt, format: 'dd/MM/yyyy') ?? 'N/A'}',
+                                  style: AppTextStyle.bodySmall.copyWith(
+                                    color: AppColors.secondaryText,
+                                  ),
                                 )
                               : null,
                         );
