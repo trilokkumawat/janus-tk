@@ -2,31 +2,35 @@ import 'package:flutter/material.dart';
 import 'package:janus/core/constants/fontsize.dart';
 
 class AppColors {
-  // Primary Gradients
+  // Primary & Secondary Brand Colors
+  static const primary = Color(0xFF8B5CF6); // Purple
+  static const secondary = Color(0xFF3B82F6); // Blue
+
+  // Legacy palette/other colors
+  static const purple = primary;
+  static const blue = secondary;
+  static const coral = Color(0xFFFF6B6B);
+  static const orange = Color(0xFFF59E0B);
+  static const green = Color(0xFF10B981);
+
+  // Gradients (using primary and secondary)
   static const primaryGradient = LinearGradient(
-    colors: [Color(0xFF8B5CF6), Color(0xFF3B82F6)],
+    colors: [primary, secondary],
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
   );
 
   static const secondaryGradient = LinearGradient(
-    colors: [Color(0xFFFF6B6B), Color(0xFFFF8E8E)],
+    colors: [coral, Color(0xFFFF8E8E)],
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
   );
 
   static const accentGradient = LinearGradient(
-    colors: [Color(0xFFF59E0B), Color(0xFFEF4444)],
+    colors: [orange, Color(0xFFEF4444)],
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
   );
-
-  // Solid Colors
-  static const purple = Color(0xFF8B5CF6);
-  static const blue = Color(0xFF3B82F6);
-  static const coral = Color(0xFFFF6B6B);
-  static const orange = Color(0xFFF59E0B);
-  static const green = Color(0xFF10B981);
 
   // Priority Colors
   static const highPriority = Color(0xFFEF4444);
@@ -55,8 +59,8 @@ class AppTheme {
       useMaterial3: true,
       brightness: Brightness.light,
       colorScheme: ColorScheme.light(
-        primary: AppColors.purple,
-        secondary: AppColors.blue,
+        primary: AppColors.primary,
+        secondary: AppColors.secondary,
         tertiary: AppColors.coral,
         surface: AppColors.lightCard,
         background: AppColors.lightBackground,
@@ -126,7 +130,7 @@ class AppTheme {
       // Button Themes - Automatic styling for all buttons
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.purple,
+          backgroundColor: AppColors.primary,
           foregroundColor: AppColors.lightText,
           elevation: 2,
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
@@ -141,7 +145,7 @@ class AppTheme {
       ),
       filledButtonTheme: FilledButtonThemeData(
         style: FilledButton.styleFrom(
-          backgroundColor: AppColors.purple,
+          backgroundColor: AppColors.primary,
           foregroundColor: AppColors.lightText,
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
           shape: RoundedRectangleBorder(
@@ -155,7 +159,7 @@ class AppTheme {
       ),
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
-          foregroundColor: AppColors.purple,
+          foregroundColor: AppColors.primary,
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           textStyle: TextStyle(
@@ -166,8 +170,8 @@ class AppTheme {
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
-          foregroundColor: AppColors.purple,
-          side: const BorderSide(color: AppColors.purple, width: 1.5),
+          foregroundColor: AppColors.primary,
+          side: const BorderSide(color: AppColors.primary, width: 1.5),
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
@@ -181,13 +185,13 @@ class AppTheme {
       // Icon Button Theme
       iconButtonTheme: IconButtonThemeData(
         style: IconButton.styleFrom(
-          foregroundColor: AppColors.purple,
+          foregroundColor: AppColors.primary,
           padding: const EdgeInsets.all(12),
         ),
       ),
       // Floating Action Button Theme
       floatingActionButtonTheme: FloatingActionButtonThemeData(
-        backgroundColor: AppColors.purple,
+        backgroundColor: AppColors.primary,
         foregroundColor: AppColors.lightText,
         elevation: 4,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -201,8 +205,8 @@ class AppTheme {
       useMaterial3: true,
       brightness: Brightness.dark,
       colorScheme: ColorScheme.dark(
-        primary: AppColors.purple,
-        secondary: AppColors.blue,
+        primary: AppColors.primary,
+        secondary: AppColors.secondary,
         tertiary: AppColors.coral,
         surface: AppColors.darkCard,
         background: AppColors.darkBackground,
@@ -272,7 +276,7 @@ class AppTheme {
       // Button Themes - Automatic styling for all buttons
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.purple,
+          backgroundColor: AppColors.primary,
           foregroundColor: AppColors.lightText,
           elevation: 2,
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
@@ -287,7 +291,7 @@ class AppTheme {
       ),
       filledButtonTheme: FilledButtonThemeData(
         style: FilledButton.styleFrom(
-          backgroundColor: AppColors.purple,
+          backgroundColor: AppColors.primary,
           foregroundColor: AppColors.lightText,
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
           shape: RoundedRectangleBorder(
@@ -301,7 +305,7 @@ class AppTheme {
       ),
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
-          foregroundColor: AppColors.purple,
+          foregroundColor: AppColors.primary,
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           textStyle: TextStyle(
@@ -312,8 +316,8 @@ class AppTheme {
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
-          foregroundColor: AppColors.purple,
-          side: const BorderSide(color: AppColors.purple, width: 1.5),
+          foregroundColor: AppColors.primary,
+          side: const BorderSide(color: AppColors.primary, width: 1.5),
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
@@ -327,13 +331,13 @@ class AppTheme {
       // Icon Button Theme
       iconButtonTheme: IconButtonThemeData(
         style: IconButton.styleFrom(
-          foregroundColor: AppColors.purple,
+          foregroundColor: AppColors.primary,
           padding: const EdgeInsets.all(12),
         ),
       ),
       // Floating Action Button Theme
       floatingActionButtonTheme: FloatingActionButtonThemeData(
-        backgroundColor: AppColors.purple,
+        backgroundColor: AppColors.primary,
         foregroundColor: AppColors.lightText,
         elevation: 4,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),

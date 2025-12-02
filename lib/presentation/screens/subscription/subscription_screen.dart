@@ -30,16 +30,14 @@ class _SubscriptionScreenState extends State<SubscriptionScreen>
     // Set cancelled message if widget was created with showCancelled flag
     if (widget.showCancelled) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        setState(() {
+        safeSetState(() {
           showCancelledMessage = true;
         });
         // Clear the cancelled state after 5 seconds
         Future.delayed(const Duration(seconds: 5), () {
-          if (mounted) {
-            setState(() {
-              showCancelledMessage = false;
-            });
-          }
+          safeSetState(() {
+            showCancelledMessage = false;
+          });
         });
       });
     }

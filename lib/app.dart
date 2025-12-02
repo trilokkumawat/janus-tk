@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:janus/core/extensions/state_extensions.dart';
 import 'package:janus/core/theme/app_theme.dart';
 import 'package:janus/data/services/auth/auth_service.dart';
 import 'package:janus/domain/entities/enumberable.dart';
@@ -14,7 +15,7 @@ class AppState extends StatefulWidget {
   State<AppState> createState() => _AppStateState();
 }
 
-class _AppStateState extends State<AppState> {
+class _AppStateState extends State<AppState> with SafeStateMixin {
   int _selectedIndex = 0;
 
   final List<Widget> _screens = <Widget>[
@@ -25,7 +26,7 @@ class _AppStateState extends State<AppState> {
   ];
 
   void _onItemTapped(int index) {
-    setState(() {
+    safeSetState(() {
       _selectedIndex = index;
     });
   }

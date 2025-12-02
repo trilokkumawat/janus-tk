@@ -1,42 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:janus/core/extensions/state_extensions.dart';
 import 'package:janus/core/theme/app_theme.dart';
 import 'package:janus/core/constants/app_text_style.dart';
 import 'package:intl/intl.dart';
 
-/// A comprehensive calendar widget with all features including:
-/// - Month and Week view modes
-/// - Date selection (single and range)
-/// - Event markers
-/// - Custom styling
-/// - Today highlighting
-/// - Navigation controls
 class TableCalendarWidget extends StatefulWidget {
-  /// Callback when a date is selected
   final Function(DateTime)? onDaySelected;
-
-  /// Callback when a date range is selected (if rangeSelectionEnabled is true)
   final Function(DateTime, DateTime)? onRangeSelected;
-
-  /// List of events to display on the calendar
-  /// Key: DateTime (date only, time ignored)
-  /// Value: List of event data (can be any type)
   final Map<DateTime, List<dynamic>>? events;
-
-  /// Whether to enable range selection
   final bool rangeSelectionEnabled;
-
-  /// Initially selected date
   final DateTime? initialSelectedDate;
-
-  /// Initially selected date range
   final RangeSelection? initialRange;
-
-  /// Custom event marker builder
   final Widget Function(DateTime date, List<dynamic> events)?
   eventMarkerBuilder;
-
-  /// Custom day builder
   final Widget Function(
     DateTime date,
     bool isSelected,
@@ -44,14 +21,8 @@ class TableCalendarWidget extends StatefulWidget {
     bool isSameMonth,
   )?
   dayBuilder;
-
-  /// Calendar format (month or week)
   final CalendarFormat initialCalendarFormat;
-
-  /// Whether to show today button
   final bool showTodayButton;
-
-  /// Whether to show format toggle button
   final bool showFormatToggle;
 
   const TableCalendarWidget({
@@ -73,7 +44,8 @@ class TableCalendarWidget extends StatefulWidget {
   State<TableCalendarWidget> createState() => _TableCalendarWidgetState();
 }
 
-class _TableCalendarWidgetState extends State<TableCalendarWidget> {
+class _TableCalendarWidgetState extends State<TableCalendarWidget>
+    with SafeStateMixin {
   late DateTime _focusedDay;
   late DateTime _selectedDay;
   RangeSelection? _selectedRange;
@@ -88,9 +60,7 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
     _calendarFormat = widget.initialCalendarFormat;
   }
 
-  /// Get events for a specific day
   List<dynamic> _getEventsForDay(DateTime day) {
-    // Normalize date to remove time component
     final normalizedDate = DateTime(day.year, day.month, day.day);
     return widget.events?[normalizedDate] ?? [];
   }
@@ -111,11 +81,8 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            // Header with month/year and controls
             _buildHeader(context, textColor, secondaryTextColor),
             const SizedBox(height: 16),
-
-            // Calendar
             TableCalendar<dynamic>(
               firstDay: DateTime.utc(2020, 1, 1),
               lastDay: DateTime.utc(2030, 12, 31),
@@ -139,7 +106,6 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
               eventLoader: _getEventsForDay,
               startingDayOfWeek: StartingDayOfWeek.monday,
               calendarStyle: CalendarStyle(
-                // Today styling
                 todayDecoration: BoxDecoration(
                   color: AppColors.purple.withOpacity(0.3),
                   shape: BoxShape.circle,
@@ -149,8 +115,6 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
                   color: AppColors.purple,
                   fontWeight: FontWeight.bold,
                 ),
-
-                // Selected day styling
                 selectedDecoration: BoxDecoration(
                   color: AppColors.purple,
                   shape: BoxShape.circle,
@@ -159,8 +123,6 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
                   color: AppColors.lightText,
                   fontWeight: FontWeight.bold,
                 ),
-
-                // Range styling
                 rangeStartDecoration: BoxDecoration(
                   color: AppColors.purple,
                   shape: BoxShape.circle,
@@ -169,29 +131,19 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
                   color: AppColors.purple,
                   shape: BoxShape.circle,
                 ),
-
-                // Default day styling
                 defaultTextStyle: AppTextStyle.bodyMedium.copyWith(
                   color: textColor,
                 ),
                 weekendTextStyle: AppTextStyle.bodyMedium.copyWith(
                   color: textColor,
                 ),
-
-                // Outside days (previous/next month)
                 outsideDaysVisible: false,
                 outsideTextStyle: AppTextStyle.bodySmall.copyWith(
                   color: secondaryTextColor.withOpacity(0.5),
                 ),
                 outsideDecoration: BoxDecoration(shape: BoxShape.circle),
-
-                // Weekend styling
                 weekendDecoration: BoxDecoration(shape: BoxShape.circle),
-
-                // Default decoration
                 defaultDecoration: BoxDecoration(shape: BoxShape.circle),
-
-                // Marker styling
                 markerDecoration: BoxDecoration(
                   color: AppColors.coral,
                   shape: BoxShape.circle,
@@ -200,7 +152,6 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
                 markersMaxCount: 3,
                 markerMargin: const EdgeInsets.symmetric(horizontal: 0.5),
               ),
-
               headerStyle: HeaderStyle(
                 formatButtonVisible: widget.showFormatToggle,
                 formatButtonShowsNext: false,
@@ -227,7 +178,6 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
                 ),
                 titleCentered: true,
               ),
-
               daysOfWeekStyle: DaysOfWeekStyle(
                 weekdayStyle: AppTextStyle.bodySmall.copyWith(
                   color: secondaryTextColor,
@@ -238,20 +188,18 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
                   fontWeight: FontWeight.w600,
                 ),
               ),
-
               onDaySelected: (selectedDay, focusedDay) {
                 if (!isSameDay(_selectedDay, selectedDay)) {
-                  setState(() {
+                  safeSetState(() {
                     _selectedDay = selectedDay;
                     _focusedDay = focusedDay;
                   });
                   widget.onDaySelected?.call(selectedDay);
                 }
               },
-
               onRangeSelected: widget.rangeSelectionEnabled
                   ? (start, end, focusedDay) {
-                      setState(() {
+                      safeSetState(() {
                         _selectedRange = RangeSelection(start: start, end: end);
                         _focusedDay = focusedDay;
                       });
@@ -260,20 +208,16 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
                       }
                     }
                   : null,
-
               onFormatChanged: (format) {
-                setState(() {
+                safeSetState(() {
                   _calendarFormat = format;
                 });
               },
-
               onPageChanged: (focusedDay) {
-                setState(() {
+                safeSetState(() {
                   _focusedDay = focusedDay;
                 });
               },
-
-              // Custom day builder if provided
               calendarBuilders: widget.dayBuilder != null
                   ? CalendarBuilders(
                       defaultBuilder: (context, date, focusedDay) {
@@ -290,14 +234,10 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
                     )
                   : const CalendarBuilders(),
             ),
-
-            // Event markers info
             if (widget.events != null && widget.events!.isNotEmpty) ...[
               const SizedBox(height: 16),
               _buildEventMarkersInfo(context, textColor, secondaryTextColor),
             ],
-
-            // Today button
             if (widget.showTodayButton) ...[
               const SizedBox(height: 12),
               _buildTodayButton(context),
@@ -330,7 +270,7 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
             IconButton(
               icon: Icon(Icons.chevron_left, color: AppColors.purple),
               onPressed: () {
-                setState(() {
+                safeSetState(() {
                   if (_calendarFormat == CalendarFormat.month) {
                     _focusedDay = DateTime(
                       _focusedDay.year,
@@ -346,7 +286,7 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
             IconButton(
               icon: Icon(Icons.chevron_right, color: AppColors.purple),
               onPressed: () {
-                setState(() {
+                safeSetState(() {
                   if (_calendarFormat == CalendarFormat.month) {
                     _focusedDay = DateTime(
                       _focusedDay.year,
@@ -540,7 +480,6 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
     );
   }
 
-  /// Extract event title from event data
   String _getEventTitle(dynamic event) {
     if (event is Map) {
       return event['title']?.toString() ??
@@ -553,7 +492,6 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
     }
   }
 
-  /// Extract event type from event data
   String? _getEventType(dynamic event) {
     if (event is Map) {
       return event['type']?.toString();
@@ -561,7 +499,6 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
     return null;
   }
 
-  /// Get color based on event type
   Color _getEventTypeColor(String? type) {
     switch (type?.toLowerCase()) {
       case 'work':
@@ -585,7 +522,7 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
       width: double.infinity,
       child: OutlinedButton.icon(
         onPressed: () {
-          setState(() {
+          safeSetState(() {
             _focusedDay = DateTime.now();
             _selectedDay = DateTime.now();
             if (widget.rangeSelectionEnabled) {
@@ -605,7 +542,6 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
   }
 }
 
-/// Helper class for range selection
 class RangeSelection {
   final DateTime? start;
   final DateTime? end;

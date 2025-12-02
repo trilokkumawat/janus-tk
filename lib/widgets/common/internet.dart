@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:janus/core/extensions/state_extensions.dart';
 
 class ConnectivityBanner extends StatefulWidget {
   const ConnectivityBanner({super.key, required this.child});
@@ -13,7 +14,8 @@ class ConnectivityBanner extends StatefulWidget {
   State<ConnectivityBanner> createState() => _ConnectivityBannerState();
 }
 
-class _ConnectivityBannerState extends State<ConnectivityBanner> {
+class _ConnectivityBannerState extends State<ConnectivityBanner>
+    with SafeStateMixin {
   final Connectivity _connectivity = Connectivity();
   final InternetConnectionChecker _connectionChecker =
       InternetConnectionChecker.instance;
@@ -82,7 +84,7 @@ class _ConnectivityBannerState extends State<ConnectivityBanner> {
 
   void _updateStatus(bool isOnline) {
     if (!mounted || _isOnline == isOnline) return;
-    setState(() => _isOnline = isOnline);
+    safeSetState(() => _isOnline = isOnline);
   }
 
   @override

@@ -5,8 +5,12 @@ import 'package:go_router/go_router.dart';
 import 'package:janus/core/constants/app_text_style.dart';
 import 'package:janus/core/constants/routes.dart';
 import 'package:janus/core/theme/app_theme.dart';
+import 'package:janus/core/extensions/state_extensions.dart';
 import 'package:janus/core/utils/timezone_utils.dart';
+import 'package:janus/core/utils/fade_animation.dart';
+import 'package:janus/core/utils/animated_list_item.dart';
 import 'package:janus/data/services/api/rest_api.dart';
+import 'package:janus/widgets/common/animated_text_kit.dart';
 import 'package:janus/widgets/supabase/cached_query_flutter.dart';
 import 'package:janus/data/controller/categories_controller.dart';
 import 'package:janus/data/models/categorymodel/category_model.dart';
@@ -22,7 +26,14 @@ class HomeScreen extends ConsumerStatefulWidget {
   ConsumerState<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends ConsumerState<HomeScreen> {
+class _HomeScreenState extends ConsumerState<HomeScreen> with SafeStateMixin {
+  bool isVisible = true;
+  toggleVisibility() {
+    safeSetState(() {
+      isVisible = !isVisible;
+    });
+  }
+
   // Sample events for demonstration
   final Map<DateTime, List<dynamic>> _events = {
     DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day): [
@@ -80,37 +91,53 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 // User greeting
-                userDataAsync.when(
-                  data: (user) {
-                    final email = user?.email;
-                    final greeting = email == null
-                        ? 'Welcome!'
-                        : 'Welcome, ${email.split('@')[0]}';
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 16.0),
-                      child: Text(
-                        greeting,
-                        style: AppTextStyle.h4.copyWith(
-                          color: Theme.of(context).brightness == Brightness.dark
-                              ? AppColors.lightText
-                              : AppColors.darkText,
-                        ),
-                      ),
-                    );
-                  },
-                  loading: () => const Padding(
-                    padding: EdgeInsets.only(bottom: 16.0),
-                    child: CircularProgressIndicator(),
-                  ),
-                  error: (_, __) => Padding(
-                    padding: const EdgeInsets.only(bottom: 16.0),
-                    child: Text(
-                      'Unable to load your profile right now',
-                      style: AppTextStyle.bodyMedium.copyWith(
-                        color: AppColors.secondaryText,
-                      ),
-                    ),
-                  ),
+                FadeSwitcher(
+                  child: isVisible
+                      ? AsyncValueFade(
+                          key: const ValueKey('visible-content'),
+                          child: userDataAsync.when(
+                            data: (user) {
+                              final email = user?.email;
+                              final greeting = email == null
+                                  ? 'Welcome!'
+                                  : 'Welcome, ${email.split('@')[0]}';
+                              return Padding(
+                                key: const ValueKey('user-greeting'),
+                                padding: const EdgeInsets.only(bottom: 16.0),
+                                child: Text(
+                                  greeting,
+                                  style: AppTextStyle.h4.copyWith(
+                                    color:
+                                        Theme.of(context).brightness ==
+                                            Brightness.dark
+                                        ? AppColors.lightText
+                                        : AppColors.darkText,
+                                  ),
+                                ),
+                              );
+                            },
+                            loading: () => const Padding(
+                              key: ValueKey('user-loading'),
+                              padding: EdgeInsets.only(bottom: 16.0),
+                              child: CircularProgressIndicator(),
+                            ),
+                            error: (_, __) => Padding(
+                              key: const ValueKey('user-error'),
+                              padding: const EdgeInsets.only(bottom: 16.0),
+                              child: Text(
+                                'Unable to load your profile right now',
+                                style: AppTextStyle.bodyMedium.copyWith(
+                                  color: AppColors.secondaryText,
+                                ),
+                              ),
+                            ),
+                          ),
+                        )
+                      : const SizedBox.shrink(key: ValueKey('hidden-content')),
+                ),
+                ElevatedButton(
+                  onPressed: toggleVisibility,
+                  child: const Text('Toggle Visibility'),
                 ),
 
                 const SizedBox(height: 24),
@@ -169,6 +196,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   ),
                 ),
                 const SizedBox(height: 12),
+                CustomAnimatedText(repeatForever: 1, text: 'Hello World'),
 
                 CachedQueryFlutter<CategoryModel>(
                   queryKey: 'category_list',
@@ -223,7 +251,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       itemCount: data.length,
                       itemBuilder: (context, index) {
                         final category = data[index];
-                        return Card(
+                        return AnimatedCard(
+                          index: index,
                           margin: const EdgeInsets.only(bottom: 8),
                           child: ListTile(
                             title: Text(category.name),
