@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../data/services/supabase_fn/supabase_service.dart';
+import '../../core/constants/app_text_style.dart';
+import '../../core/theme/app_theme.dart';
 
 /// Cache entry model
 class _CacheEntry<T> {
@@ -262,6 +264,38 @@ class _CachedQueryFlutterState<T> extends ConsumerState<CachedQueryFlutter<T>> {
     super.dispose();
   }
 
+  bool _isInternetError(Object? error) {
+    if (error == null) return false;
+    final errorString = error.toString().toLowerCase();
+    final internetErrorKeywords = [
+      'network',
+      'internet',
+      'connection',
+      'socket',
+      'host lookup',
+      'failed host lookup',
+      'no internet',
+      'offline',
+      'unreachable',
+      'dns',
+      'network is unreachable',
+      'connection refused',
+      'connection reset',
+      'connection timeout',
+      'timeout',
+      'no internet connection',
+    ];
+    return internetErrorKeywords.any(
+      (keyword) => errorString.contains(keyword),
+    );
+  }
+
+  void _retry() {
+    // Invalidate cache and refetch
+    ref.read(_cacheProvider.notifier).removeCacheEntry(widget.queryKey);
+    ref.invalidate(_cachedQueryProviderFamily(_config));
+  }
+
   @override
   Widget build(BuildContext context) {
     final queryState = ref.watch(_cachedQueryProviderFamily(_config));
@@ -275,22 +309,65 @@ class _CachedQueryFlutterState<T> extends ConsumerState<CachedQueryFlutter<T>> {
         return widget.builder(context, typedData, false, null);
       },
       loading: () => widget.loadingWidget ?? const CircularProgressIndicator(),
-      error: (error, stackTrace) =>
-          widget.errorWidget ??
-          Center(
+      error: (error, stackTrace) {
+        if (widget.errorWidget != null) {
+          return widget.errorWidget!;
+        }
+
+        final isInternetErr = _isInternetError(error);
+
+        return Center(
+          child: Padding(
+            padding: const EdgeInsets.all(24.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Icon(Icons.error_outline, size: 48, color: Colors.red),
-                const SizedBox(height: 16),
+                Icon(
+                  isInternetErr ? Icons.wifi_off : Icons.error_outline,
+                  size: 64,
+                  color: isInternetErr
+                      ? AppColors.orange
+                      : AppColors.highPriority,
+                ),
+                const SizedBox(height: 24),
                 Text(
-                  'Error: ${error.toString()}',
-                  style: const TextStyle(color: Colors.red),
+                  isInternetErr
+                      ? 'No Internet Connection'
+                      : 'Something went wrong',
+                  style: AppTextStyle.h5.copyWith(
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? AppColors.lightText
+                        : AppColors.darkText,
+                  ),
                   textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 12),
+                Text(
+                  isInternetErr
+                      ? 'Please check your internet connection and try again.'
+                      : error.toString(),
+                  style: AppTextStyle.bodyMedium.copyWith(
+                    color: AppColors.secondaryText,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 32),
+                ElevatedButton.icon(
+                  onPressed: _retry,
+                  icon: const Icon(Icons.refresh),
+                  label: const Text('Retry'),
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 24,
+                      vertical: 12,
+                    ),
+                  ),
                 ),
               ],
             ),
           ),
+        );
+      },
     );
   }
 }
