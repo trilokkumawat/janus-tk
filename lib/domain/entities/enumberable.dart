@@ -1,4 +1,4 @@
-enum AppStateHeader { home, goals, todos, profile }
+enum AppStateHeader { home, ideas, goals, todos }
 
 enum XPRewards { home, goals, todos, profile }
 

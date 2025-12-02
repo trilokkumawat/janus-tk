@@ -19,10 +19,9 @@ class _AppStateState extends State<AppState> {
 
   final List<Widget> _screens = <Widget>[
     const _KeepAliveWrapper(child: HomeScreen()),
+    const _KeepAliveWrapper(child: Center(child: Text('Ideas Screen'))),
     const _KeepAliveWrapper(child: Center(child: Text('Goals Screen'))),
-    const _KeepAliveWrapper(child: Center(child: Text('Tasks Screen'))),
     const _KeepAliveWrapper(child: Center(child: Text('To-Dos Screen'))),
-    const _KeepAliveWrapper(child: Center(child: Text('Profile Screen'))),
   ];
 
   void _onItemTapped(int index) {
@@ -40,11 +39,11 @@ class _AppStateState extends State<AppState> {
       case 0:
         return AppStateHeader.home.name;
       case 1:
-        return AppStateHeader.goals.name;
+        return AppStateHeader.ideas.name;
       case 2:
-        return AppStateHeader.todos.name;
+        return AppStateHeader.goals.name;
       case 3:
-        return AppStateHeader.profile.name;
+        return AppStateHeader.todos.name;
       default:
         return '';
     }
@@ -63,12 +62,13 @@ class _AppStateState extends State<AppState> {
         bottomNavigationBar: BottomNavigationBar(
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-            BottomNavigationBarItem(icon: Icon(Icons.flag), label: 'Goals'),
+            BottomNavigationBarItem(icon: Icon(Icons.flag), label: 'Ideas'),
             BottomNavigationBarItem(
-              icon: Icon(Icons.playlist_add_check),
-              label: 'To-Dos',
+              icon: Icon(Icons.golf_course_sharp),
+              label: 'Goals',
             ),
-            BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
+
+            BottomNavigationBarItem(icon: Icon(Icons.list), label: 'To-Dos'),
           ],
           currentIndex: _selectedIndex,
           onTap: _onItemTapped,
