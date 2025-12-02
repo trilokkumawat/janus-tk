@@ -12,6 +12,8 @@ import 'package:janus/data/controller/categories_controller.dart';
 import 'package:janus/data/models/categorymodel/category_model.dart';
 import 'package:janus/widgets/animations/confetti_overlay.dart';
 import 'package:janus/presentation/providers/user_provider.dart';
+import 'package:janus/widgets/common/table_calendar_widget.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -21,6 +23,40 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
+  // Sample events for demonstration
+  final Map<DateTime, List<dynamic>> _events = {
+    DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day): [
+      {'title': 'Meeting', 'type': 'work'},
+      {'title': 'Gym', 'type': 'personal'},
+    ],
+    DateTime(
+      DateTime.now().year,
+      DateTime.now().month,
+      DateTime.now().day + 2,
+    ): [
+      {'title': 'Project Deadline', 'type': 'work'},
+    ],
+    DateTime(
+      DateTime.now().year,
+      DateTime.now().month,
+      DateTime.now().day + 5,
+    ): [
+      {'title': 'Birthday Party', 'type': 'personal'},
+      {'title': 'Shopping', 'type': 'personal'},
+    ],
+  };
+
+  void _onDaySelected(DateTime selectedDay) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          'Selected date: ${selectedDay.day}/${selectedDay.month}/${selectedDay.year}',
+        ),
+        duration: const Duration(seconds: 2),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final userDataAsync = ref.watch(userDataProvider);
@@ -37,55 +73,104 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       duration: const Duration(seconds: 3),
       gravity: 0.1,
       child: Scaffold(
-        body: Center(
-          child: Column(
-            children: <Widget>[
-              userDataAsync.when(
-                data: (user) {
-                  final email = user?.email;
-                  final greeting = email == null
-                      ? 'Welcome!'
-                      : 'Welcome, $email';
-                  return Text(greeting);
-                },
-                loading: () => const CircularProgressIndicator(),
-                error: (_, __) =>
-                    const Text('Unable to load your profile right now'),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  GoRouter.of(context).push(AppRoutes.subscription);
-                },
-                child: const Text('Go to Subscription'),
-              ),
-              ElevatedButton(
-                onPressed: () async {
-                  var result = await JanusApiGroup.hellofun.call(
-                    useFunctionApi: true,
-                  );
-                  if (result.success) {
-                    String dataString;
-                    if (result.data is String) {
-                      dataString = result.data as String;
-                    } else if (result.data is Map) {
-                      dataString = jsonEncode(result.data);
-                    } else {
-                      dataString = result.data?.toString() ?? 'Success';
-                    }
-                    ScaffoldMessenger.of(
-                      context,
-                    ).showSnackBar(SnackBar(content: Text(dataString)));
-                  } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text(result.message ?? '')),
+        body: SafeArea(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                // User greeting
+                userDataAsync.when(
+                  data: (user) {
+                    final email = user?.email;
+                    final greeting = email == null
+                        ? 'Welcome!'
+                        : 'Welcome, ${email.split('@')[0]}';
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 16.0),
+                      child: Text(
+                        greeting,
+                        style: AppTextStyle.h4.copyWith(
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? AppColors.lightText
+                              : AppColors.darkText,
+                        ),
+                      ),
                     );
-                  }
-                },
-                child: const Text('Go to Goals'),
-              ),
+                  },
+                  loading: () => const Padding(
+                    padding: EdgeInsets.only(bottom: 16.0),
+                    child: CircularProgressIndicator(),
+                  ),
+                  error: (_, __) => Padding(
+                    padding: const EdgeInsets.only(bottom: 16.0),
+                    child: Text(
+                      'Unable to load your profile right now',
+                      style: AppTextStyle.bodyMedium.copyWith(
+                        color: AppColors.secondaryText,
+                      ),
+                    ),
+                  ),
+                ),
 
-              Expanded(
-                child: CachedQueryFlutter<CategoryModel>(
+                const SizedBox(height: 24),
+
+                // Action buttons
+                Row(
+                  children: [
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          GoRouter.of(context).push(AppRoutes.subscription);
+                        },
+                        child: const Text('Subscription'),
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          var result = await JanusApiGroup.hellofun.call(
+                            useFunctionApi: true,
+                          );
+                          if (result.success) {
+                            String dataString;
+                            if (result.data is String) {
+                              dataString = result.data as String;
+                            } else if (result.data is Map) {
+                              dataString = jsonEncode(result.data);
+                            } else {
+                              dataString = result.data?.toString() ?? 'Success';
+                            }
+                            ScaffoldMessenger.of(
+                              context,
+                            ).showSnackBar(SnackBar(content: Text(dataString)));
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text(result.message ?? '')),
+                            );
+                          }
+                        },
+                        child: const Text('Goals'),
+                      ),
+                    ),
+                  ],
+                ),
+
+                const SizedBox(height: 24),
+
+                // Categories section
+                Text(
+                  'Categories',
+                  style: AppTextStyle.h5.copyWith(
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? AppColors.lightText
+                        : AppColors.darkText,
+                  ),
+                ),
+                const SizedBox(height: 12),
+
+                CachedQueryFlutter<CategoryModel>(
                   queryKey: 'category_list',
                   queryFn: () async {
                     final service = CategoriesService();
@@ -96,7 +181,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   },
                   enableRealtime: true,
                   table: 'categories',
-                  emptyWidget: const Center(child: Text('No categories found')),
+                  emptyWidget: Center(
+                    child: Text(
+                      'No categories found',
+                      style: AppTextStyle.bodyMedium.copyWith(
+                        color: AppColors.secondaryText,
+                      ),
+                    ),
+                  ),
                   loadingWidget: Container(
                     padding: const EdgeInsets.all(24.0),
                     alignment: Alignment.center,
@@ -116,32 +208,44 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   ),
                   builder: (context, data, isLoading, error) {
                     if (error != null) {
-                      return Center(child: Text('Error: $error'));
+                      return Center(
+                        child: Text(
+                          'Error: $error',
+                          style: AppTextStyle.bodyMedium.copyWith(
+                            color: AppColors.highPriority,
+                          ),
+                        ),
+                      );
                     }
                     return ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
                       itemCount: data.length,
                       itemBuilder: (context, index) {
                         final category = data[index];
-                        return ListTile(
-                          title: Text(category.name),
-                          subtitle: Text(
-                            category.description ?? 'No description',
+                        return Card(
+                          margin: const EdgeInsets.only(bottom: 8),
+                          child: ListTile(
+                            title: Text(category.name),
+                            subtitle: Text(
+                              category.description ?? 'No description',
+                            ),
+                            trailing: category.createdAt != null
+                                ? Text(
+                                    'Created: ${TimezoneUtils.formatDateTime(category.createdAt, format: 'dd/MM/yyyy') ?? 'N/A'}',
+                                    style: AppTextStyle.bodySmall.copyWith(
+                                      color: AppColors.secondaryText,
+                                    ),
+                                  )
+                                : null,
                           ),
-                          trailing: category.createdAt != null
-                              ? Text(
-                                  'Created: ${TimezoneUtils.formatDateTime(category.createdAt, format: 'dd/MM/yyyy') ?? 'N/A'}',
-                                  style: AppTextStyle.bodySmall.copyWith(
-                                    color: AppColors.secondaryText,
-                                  ),
-                                )
-                              : null,
                         );
                       },
                     );
                   },
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
         floatingActionButton: Column(
